@@ -8,9 +8,10 @@ class Lesson(models.Model):
     description = models.TextField(**NULLABLE, verbose_name='description')
     preview = models.ImageField(**NULLABLE, upload_to='lessons', verbose_name='preview')
     link = models.URLField(**NULLABLE, verbose_name='link')
+    course = models.ForeignKey('academy.Course', on_delete=models.CASCADE, verbose_name='course', related_name='lessons')
 
     def __str__(self):
-        return f'{self.name} {self.link}'
+        return f'{self.name}{self.course} {self.link}'
 
     class Meta:
         verbose_name = 'lesson'
