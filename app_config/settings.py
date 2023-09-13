@@ -91,6 +91,7 @@ DATABASES = {
         'NAME': 'academy',
         'USER': 'postgres',
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': 'localhost',
     }
 }
 
