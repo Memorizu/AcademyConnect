@@ -5,8 +5,7 @@ from constans import NULLABLE
 
 
 class User(AbstractUser):
-    username = None
-
+    username = models.CharField(max_length=150, db_index=True, **NULLABLE, verbose_name='username')
     email = models.EmailField(unique=True, verbose_name='email')
     avatar = models.ImageField(upload_to='user/', **NULLABLE, verbose_name='avatar')
     phone = models.IntegerField(**NULLABLE, verbose_name='phone')
