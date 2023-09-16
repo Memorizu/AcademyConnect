@@ -1,19 +1,14 @@
 from rest_framework.permissions import BasePermission
 
-from users.models import User
 
-
-class ModeratorPermission(BasePermission):
-
+class IsAdmin(BasePermission):
     def has_permission(self, request, view):
-        if request.user.groups.filter(name='Moderator'):
-            return True
-        if request.user == User.objects.filter(user=request.user):
+        if request.user.is_staff or request.user.is_superuser:
             return True
 
 
-class SuperUserPermission(BasePermission):
+class IsOwner(BasePermission):
 
-    def has_permission(self, request, view):
-        if request.user.is_superuser:
-            return True
+    def has_object_permission(self, request, view, obj):
+        return request.user == obj.user
+

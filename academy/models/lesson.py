@@ -9,6 +9,7 @@ class Lesson(models.Model):
     preview = models.ImageField(**NULLABLE, upload_to='lessons', verbose_name='preview')
     link = models.URLField(**NULLABLE, verbose_name='link')
     course = models.ForeignKey('academy.Course', on_delete=models.CASCADE, verbose_name='course', related_name='lessons')
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='user', related_name='lessons')
 
     def __str__(self):
         return f'{self.name}{self.course} {self.link}'

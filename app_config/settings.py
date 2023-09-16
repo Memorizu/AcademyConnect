@@ -138,6 +138,7 @@ STATICFILES_DIRS = (
 )
 
 AUTH_USER_MODEL = 'users.User'
+AUTH_GROUP_MODEL = 'users.Group'
 
 
 MEDIA_URL = '/media/'
