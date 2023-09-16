@@ -26,27 +26,25 @@ class LessonCreateAPIView(generics.CreateAPIView):
 class LessonListAPIView(generics.ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonViewSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     if self.request.user == self.get_object().user:
-    #         return queryset.filter(user=self.request.user)
+    def get_queryset(self):
+        return Lesson.objects.filter(user=self.request.user)
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonViewSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonViewSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated, IsAdmin | IsOwner]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonViewSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated, IsOwner]

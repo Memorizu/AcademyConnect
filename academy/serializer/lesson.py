@@ -7,11 +7,11 @@ from users.models import User
 
 class LessonCreateSerializer(serializers.ModelSerializer):
     course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Lesson
-        fields = ('name', 'description', 'preview', 'link', 'course', 'user')
+        fields = ('name', 'description', 'preview', 'link', 'course',)
 
 
 class LessonViewSerializer(LessonCreateSerializer):
