@@ -1,14 +1,12 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class UserPermission(BasePermission):
 
-    def has_object_permission(self, request, view, obj):
-        if request.user == obj.user:
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
             return True
+        return False
 
-        if request.method == 'GET':
-            serializer_fields = ['username', 'avatar', 'city']
-            serializer = view.get_serializer(instance=obj, fields=serializer_fields)
-            view.serializer_class = serializer
-            return True
+    def has_object_permission(self, request, view, obj):
+        return obj == request.user
