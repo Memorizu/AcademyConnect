@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from academy.models.course import Course
 from academy.serializer.lesson import LessonViewSerializer
-from academy.serializer.subscription import SubscriptionSerializer, SubscriptionListSerializer
+from academy.serializer.subscription import  SubscriptionListSerializer
 
 
 class CourseSerializer(serializers.ModelSerializer):

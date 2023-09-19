@@ -3,7 +3,7 @@ from rest_framework import generics
 from academy.permissions import IsAdmin
 from users.models import User
 from users.permissions import UserPermission
-from users.serializer import UserSerializer, AdminSerializer
+from users.serializer import UserSerializer
 
 
 class UserCreateAPIView(generics.CreateAPIView):

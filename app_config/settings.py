@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'django_filters',
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -159,7 +160,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
 }
 
 SIMPLE_JWT = {
