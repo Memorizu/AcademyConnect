@@ -7,7 +7,7 @@ class Subscription(models.Model):
     course = models.ForeignKey('academy.Course', on_delete=models.CASCADE, related_name='course_subscriptions')
 
     def __str__(self):
-        return self.is_active
+        return f'{self.user.email} {self.course.title} '
 
     class Meta:
         verbose_name = 'subscriptions'

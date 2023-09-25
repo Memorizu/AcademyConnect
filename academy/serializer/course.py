@@ -1,8 +1,12 @@
+from datetime import datetime
+
 from rest_framework import serializers
 
+from academy.models import Subscription
 from academy.models.course import Course
 from academy.serializer.lesson import LessonViewSerializer
 from academy.serializer.subscription import  SubscriptionListSerializer
+from academy.tasks import send_email
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -10,10 +14,21 @@ class CourseSerializer(serializers.ModelSerializer):
     subscription = SubscriptionListSerializer(read_only=True, many=True, source='course_subscriptions')
     lessons = LessonViewSerializer(read_only=True, many=True)
 
-
     def get_lessons_count(self, obj):
         return obj.lessons.count()
 
     class Meta:
         model = Course
         fields = ('id', 'title', 'description', 'image', 'lessons_count', 'lessons', 'subscription')
+
+    def update(self, instance, validated_data):
+        subscription = Subscription.objects.filter(course_id=instance.id)
+        instance.updated_at = datetime.now()
+        course = instance.course
+        if course:
+            course.updated_at = datetime.now()
+
+        if subscription.is_active:
+            send_email.delay(subscription=subscription)
+        instance.save()
+        return super().update(instance, validated_data)

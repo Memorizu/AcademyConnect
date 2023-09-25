@@ -8,8 +8,8 @@ from users.models import User
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         user_admin = User.objects.create(
-            username='user',
-            email='user@mail.ru',
+            username='boshy',
+            email='kaidohmary@gmail.com',
             is_active=True,
         )
 

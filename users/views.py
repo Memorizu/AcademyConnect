@@ -15,11 +15,6 @@ class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAdmin | UserPermission]
 
-    # def get_serializer(self, *args, **kwargs):
-    #     if self.request.user.is_staff:
-    #         return AdminSerializer(*args, **kwargs)
-    #     return UserSerializer(*args, **kwargs)
-
 
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
