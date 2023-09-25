@@ -1,6 +1,6 @@
 from django.db import models
 
-from constans import NULLABLE, NOW
+from constans import NULLABLE
 
 
 class Course(models.Model):

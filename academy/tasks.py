@@ -1,31 +1,40 @@
+from datetime import timedelta
+
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 
-from academy.models import Subscription
+from academy.models import Subscription, Course, Lesson
 from constans import NOW
+from users.models import User
 
 
 @shared_task
-def send_email(list_of_emails):
+def send_course_update_email(course_id):
+    try:
+        course = Course.objects.get(pk=course_id)
+        lessons = Lesson.objects.filter(course=course)
+        subscriptions = Subscription.objects.filter(course=course, is_active=True)
 
-    for email in list_of_emails:
+        email_list = [subscription.user.email for subscription in subscriptions]
 
-        send_mail(
-            subject=f'Обновился курс: ',
-            message='Посмотрите обновление в курсе',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[email],
-            fail_silently=False
-        )
+        subject = f'Обновился курс: {course.title}'
+        message = f'Посмотрите обновление в курсе, обновился урок {lessons}'
+        from_email = settings.EMAIL_HOST_USER
+
+        send_mail(subject, message, from_email, email_list, fail_silently=False)
+    except Course.DoesNotExist:
+        pass
 
 
-# @shared_task
-# def send_email_test():
-#         send_mail(
-#             subject='Обновился курс: {subscription.course}',
-#             message='Посмотрите обновление в курсе',
-#             from_email=settings.EMAIL_HOST_USER,
-#             recipient_list=['kaidohmary@gmail.com'],
-#             fail_silently=False
-#         )
+@shared_task
+def check_last_login():
+    try:
+        users = User.objects.all()
+        month = timedelta(days=30)
+        for user in users:
+            if NOW - user.last_login > month:
+                user.is_active = False
+                user.save()
+    except Exception as e:
+        return f'Произошла ошибка: {str(e)}'

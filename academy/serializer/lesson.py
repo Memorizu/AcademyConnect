@@ -1,12 +1,12 @@
 
 from rest_framework import serializers
 
-from academy.models import Course, Subscription
+from academy.models import Course
 from academy.models.lesson import Lesson
 from academy.validators import UrlValidator
 from constans import NOW
 from users.models import User
-from academy.tasks import send_email
+from academy.tasks import send_course_update_email
 
 
 class LessonCreateSerializer(serializers.ModelSerializer):
@@ -31,14 +31,12 @@ class LessonViewSerializer(LessonCreateSerializer):
         instance.updated_at = NOW
         instance.save()
         course = instance.course
-        if course:
-            course.updated_at = NOW
-            course.save()
 
-        subscriptions = Subscription.objects.filter(course=course.id)
-        list_of_user_emails = [subscription.user.email for subscription in subscriptions]
+        difference_time = NOW - course.updated_at
 
-        # if subscription.is_active:
-        send_email.delay(list_of_user_emails)
+        if difference_time.total_seconds() > 4 * 3600:
+            send_course_update_email.delay(course.id)
+        course.updated_at = NOW
+        course.save()
 
         return super().update(instance, validated_data)

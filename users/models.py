@@ -14,6 +14,7 @@ class User(AbstractUser):
     verification_key = models.IntegerField(**NULLABLE, verbose_name='verification')
     groups = models.ManyToManyField(Group, related_name='custom_user_set')
     user_permissions = models.ManyToManyField(Permission, related_name='custom_user_set_permissions')
+    last_login = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
