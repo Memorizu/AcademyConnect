@@ -22,6 +22,3 @@ class PaymentSerializer(serializers.ModelSerializer):
             'user',
             'stripe'
         )
-
-
-

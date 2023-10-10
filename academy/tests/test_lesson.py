@@ -6,7 +6,6 @@ from academy.tests.base import BaseTestCase
 
 class LessonTestCase(BaseTestCase):
 
-
     def test_create(self):
         data = {
             "name": "test",
