@@ -16,5 +16,3 @@ RUN pip install poetry \
     && poetry install --no-interaction --no-ansi
 
 COPY . /app/
-
-CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]

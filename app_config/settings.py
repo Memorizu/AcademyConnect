@@ -99,8 +99,8 @@ DATABASES = {
         'NAME': 'academy',
         'USER': 'postgres',
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -189,10 +189,10 @@ CSRF_TRUSTED_ORIGINS = [
 # Настройки для Celery
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = 'UTC'
