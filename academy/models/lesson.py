@@ -9,6 +9,9 @@ class Lesson(models.Model):
     preview = models.ImageField(**NULLABLE, upload_to='lessons', verbose_name='preview')
     link = models.URLField(**NULLABLE, verbose_name='link')
     course = models.ForeignKey('academy.Course', on_delete=models.CASCADE, verbose_name='course', related_name='lessons')
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='user', related_name='lessons')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.name}{self.course} {self.link}'
@@ -16,3 +19,5 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'lesson'
         verbose_name_plural = 'lessons'
+
+

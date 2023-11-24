@@ -5,8 +5,7 @@ from constans import NULLABLE
 
 
 class User(AbstractUser):
-    username = None
-
+    username = models.CharField(max_length=150, db_index=True, **NULLABLE, verbose_name='username')
     email = models.EmailField(unique=True, verbose_name='email')
     avatar = models.ImageField(upload_to='user/', **NULLABLE, verbose_name='avatar')
     phone = models.IntegerField(**NULLABLE, verbose_name='phone')
@@ -15,6 +14,7 @@ class User(AbstractUser):
     verification_key = models.IntegerField(**NULLABLE, verbose_name='verification')
     groups = models.ManyToManyField(Group, related_name='custom_user_set')
     user_permissions = models.ManyToManyField(Permission, related_name='custom_user_set_permissions')
+    last_login = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
